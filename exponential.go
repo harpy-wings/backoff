@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+// ExponentialDo is a function that retries a function with an exponential backoff strategy and returns an error
 func ExponentialDo(ctx context.Context, fn func(ctx context.Context) error, opts ...Option) error {
 	cfg := &config{
 		MaxAttempts:  5,
@@ -59,6 +60,7 @@ func ExponentialDo(ctx context.Context, fn func(ctx context.Context) error, opts
 	return errors.Join(lastErr, fmt.Errorf("failed after %d attempts", cfg.MaxAttempts))
 }
 
+// ExponentialDoWithReturn is a function that retries a function with an exponential backoff strategy and returns a result
 func ExponentialDoWithReturn[T any](ctx context.Context, fn func(ctx context.Context) (T, error), opts ...Option) (T, error) {
 	cfg := &config{
 		MaxAttempts:  5,
